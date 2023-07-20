@@ -7,10 +7,12 @@ public class Block : MonoBehaviour
     public int hitsToKill;
     private int score;
     private int numberOfHits;
+    GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectsWithTag("Player")[0];
         numberOfHits = 0;
         score = hitsToKill * 10;
     }
@@ -24,11 +26,10 @@ public class Block : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ball")
         {
-            GameObject player = GameObject.FindGameObjectsWithTag("Player")[0];
-            player.SendMessage("addPoints", score);
+            numberOfHits++;
             if (numberOfHits == hitsToKill)
             {
-
+                player.SendMessage("addPoints", score);
                 Destroy(this.gameObject);
             }
         }

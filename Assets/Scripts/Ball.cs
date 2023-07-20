@@ -24,7 +24,6 @@ public class Ball : MonoBehaviour
         if (!isActive)
         {
             rb.isKinematic = false;
-            Debug.Log("ss");
             rb.AddForce(ballInitialForce);
             isActive = true;
         }

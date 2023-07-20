@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
     public float bound;
     private Rigidbody2D rb;
     public Ball ball;
-    private int playerLives;
-    private int playerPoints;
+    public int playerLives;
+    public int playerPoints;
     // Start is called before the first frame update
     void Start()
     {

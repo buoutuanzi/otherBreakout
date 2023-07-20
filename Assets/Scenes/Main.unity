@@ -895,7 +895,6 @@ GameObject:
   - component: {fileID: 719879566}
   - component: {fileID: 719879569}
   - component: {fileID: 719879568}
-  - component: {fileID: 719879567}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -923,19 +922,6 @@ RectTransform:
   m_AnchoredPosition: {x: 271.864, y: 235.81}
   m_SizeDelta: {x: 446.7193, y: 47.3876}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &719879567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 719879565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d09db5f8a62cf24d9a1279225e9ed72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!114 &719879568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,6 +1122,8 @@ MonoBehaviour:
   speed: 0.3
   bound: 8.35
   ball: {fileID: 1024777814}
+  playerLives: 0
+  playerPoints: 0
 --- !u!212 &879790154
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1809,6 +1797,7 @@ GameObject:
   - component: {fileID: 1124801006}
   - component: {fileID: 1124801005}
   - component: {fileID: 1124801004}
+  - component: {fileID: 1124801008}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1901,6 +1890,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1124801008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124801003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d09db5f8a62cf24d9a1279225e9ed72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 879790153}
 --- !u!1 &1284747657
 GameObject:
   m_ObjectHideFlags: 0
