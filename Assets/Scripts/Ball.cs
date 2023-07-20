@@ -10,6 +10,7 @@ public class Ball : MonoBehaviour
     private Vector2 ballInitialForce;
     private Rigidbody2D rb;
     public GameObject player;
+    private Vector2 reflectForce;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,7 @@ public class Ball : MonoBehaviour
         isActive = false;
         ballPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
+        reflectForce = new Vector2(0, 450);
     }
 
     public void fire()
@@ -54,8 +56,8 @@ public class Ball : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             float xDistancePercent = (transform.position.x - player.transform.position.x) / 1.5f;
-            Vector2 ballReflectForce = new Vector2(xDistancePercent * 300, 450);
-            rb.AddForce(ballReflectForce);
+            reflectForce.x = xDistancePercent * 300;
+            rb.AddForce(reflectForce);
         }
     }
 }

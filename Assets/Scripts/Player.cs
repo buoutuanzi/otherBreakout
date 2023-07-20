@@ -14,12 +14,20 @@ public class Player : MonoBehaviour
     public Ball ball;
     public int playerLives;
     public int playerPoints;
+
+    private Vector3 leftBound;
+    private Vector3 rightBound;
+
+    Vector3 moveDistance;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerLives = 3;
         playerPoints = 0;
+        leftBound = new Vector3(-bound, transform.position.y, transform.position.z);
+        rightBound = new Vector3(bound, transform.position.y, transform.position.z);
+        moveDistance = new Vector3(0, 0, 0);
     }
 
     private void OnMove(InputValue moveVal)
@@ -35,14 +43,14 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 moveDistance = new Vector3(movementX, 0, 0).normalized * speed;
+        moveDistance.x = movementX * speed;
         float newPositionX = transform.position.x + moveDistance.x;
         if (newPositionX < -bound)
         {
-            transform.position = new Vector3(-bound, transform.position.y, transform.position.z);
+            transform.position = leftBound;
         } else if (newPositionX > bound)
         {
-            transform.position = new Vector3(bound, transform.position.y, transform.position.z);
+            transform.position = rightBound;
         } else
         {
             transform.position += moveDistance;

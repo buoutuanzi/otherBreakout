@@ -6,19 +6,19 @@ using UnityEngine;
 public class UI : MonoBehaviour
 {
     public Player player;
-    private Transform life;
-    private Transform score;
+    private UnityEngine.UI.Text life;
+    private UnityEngine.UI.Text score;
     // Start is called before the first frame update
     void Start()
     {
-        life = transform.Find("Life");
-        score = transform.Find("Score");
+        life = transform.Find("Life").GetComponent<UnityEngine.UI.Text>();
+        score = transform.Find("Score").GetComponent<UnityEngine.UI.Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        life.GetComponent<UnityEngine.UI.Text>().text = "Lives: " + player.playerLives.ToString();
-        score.GetComponent<UnityEngine.UI.Text>().text = "Score: " + player.playerPoints.ToString();
+        life.text = "Lives: " + player.playerLives.ToString();
+        score.text = "Score: " + player.playerPoints.ToString();
     }
 }

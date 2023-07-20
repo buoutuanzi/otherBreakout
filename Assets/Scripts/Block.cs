@@ -17,11 +17,6 @@ public class Block : MonoBehaviour
         score = hitsToKill * 10;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Ball")
