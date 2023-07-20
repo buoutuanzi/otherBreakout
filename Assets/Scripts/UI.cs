@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    public Player player;
+    public GameControl gameControl;
     private UnityEngine.UI.Text life;
     private UnityEngine.UI.Text score;
     // Start is called before the first frame update
@@ -18,7 +18,7 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        life.text = "Lives: " + player.playerLives.ToString();
-        score.text = "Score: " + player.playerPoints.ToString();
+        life.text = "Lives: " + gameControl.playerLives.ToString();
+        score.text = "Score: " + gameControl.playerPoints.ToString();
     }
 }

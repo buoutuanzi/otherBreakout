@@ -7,26 +7,23 @@ public class Block : MonoBehaviour
     public int hitsToKill;
     private int score;
     private int numberOfHits;
-    GameObject player;
+    private GameObject gameControl;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectsWithTag("Player")[0];
+        gameControl = GameObject.FindGameObjectsWithTag("GameControl")[0];
         numberOfHits = 0;
         score = hitsToKill * 10;
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void getHit()
     {
-        if (collision.gameObject.tag == "Ball")
+        numberOfHits++;
+        if (numberOfHits == hitsToKill)
         {
-            numberOfHits++;
-            if (numberOfHits == hitsToKill)
-            {
-                player.SendMessage("addPoints", score);
-                Destroy(this.gameObject);
-            }
+            gameControl.SendMessage("addPoints", score);
+            Destroy(this.gameObject);
         }
     }
 }

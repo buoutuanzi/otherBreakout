@@ -12,8 +12,6 @@ public class Player : MonoBehaviour
     public float bound;
     private Rigidbody2D rb;
     public Ball ball;
-    public int playerLives;
-    public int playerPoints;
 
     private Vector3 leftBound;
     private Vector3 rightBound;
@@ -23,8 +21,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerLives = 3;
-        playerPoints = 0;
         leftBound = new Vector3(-bound, transform.position.y, transform.position.z);
         rightBound = new Vector3(bound, transform.position.y, transform.position.z);
         moveDistance = new Vector3(0, 0, 0);
@@ -55,24 +51,5 @@ public class Player : MonoBehaviour
         {
             transform.position += moveDistance;
         }
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        if (playerLives <= 0)
-        {
-            SceneManager.LoadScene("Main");
-        }
-    }
-
-    void TakeLife()
-    {
-        playerLives--;
-    }
-
-    void addPoints(int points)
-    {
-        playerPoints += points;
     }
 }
