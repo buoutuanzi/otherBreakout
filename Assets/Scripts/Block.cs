@@ -5,12 +5,14 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     public int hitsToKill;
+    private int score;
     private int numberOfHits;
 
     // Start is called before the first frame update
     void Start()
     {
         numberOfHits = 0;
+        score = hitsToKill * 10;
     }
 
     // Update is called once per frame
@@ -22,9 +24,11 @@ public class Block : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ball")
         {
-            numberOfHits++;
+            GameObject player = GameObject.FindGameObjectsWithTag("Player")[0];
+            player.SendMessage("addPoints", score);
             if (numberOfHits == hitsToKill)
             {
+
                 Destroy(this.gameObject);
             }
         }

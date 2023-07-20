@@ -13,11 +13,13 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     public Ball ball;
     private int playerLives;
+    private int playerPoints;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerLives = 3;
+        playerPoints = 0;
     }
 
     private void OnMove(InputValue moveVal)
@@ -55,13 +57,14 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene("Main");
         }
     }
-    void OnGUI()
-    {
-        GUI.Label(new Rect(5.0f, 3.0f, 200.0f, 200.0f), "Live's: " + playerLives);
-    }
 
     void TakeLife()
     {
         playerLives--;
+    }
+
+    void addPoints(int points)
+    {
+        playerPoints += points;
     }
 }
