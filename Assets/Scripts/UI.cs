@@ -28,7 +28,7 @@ public class UI : MonoBehaviour
     }
 
 
-    public void LifeRefresh(int playerLives)
+    private void LifeRefresh(int playerLives)
     {
         _lifeText.text = "Lives: " + playerLives.ToString();
     }
