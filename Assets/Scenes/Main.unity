@@ -635,10 +635,10 @@ RectTransform:
   m_Father: {fileID: 1124801007}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 271.864, y: 235.81}
-  m_SizeDelta: {x: 446.7193, y: 47.3876}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 261.1, y: 258.34}
+  m_SizeDelta: {x: -545.2807, y: -515.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &719879568
 MonoBehaviour:
@@ -1185,11 +1185,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -1670,10 +1670,10 @@ RectTransform:
   m_Father: {fileID: 1124801007}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -380.27466, y: 235.81}
-  m_SizeDelta: {x: 230.4473, y: 47.3876}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -336.67792, y: 257.96942}
+  m_SizeDelta: {x: -693.7085, y: -515.9312}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1980378415
 MonoBehaviour:
@@ -1708,7 +1708,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Lives: 3'
+  m_Text: 'Lives: 0'
 --- !u!222 &1980378416
 CanvasRenderer:
   m_ObjectHideFlags: 0
