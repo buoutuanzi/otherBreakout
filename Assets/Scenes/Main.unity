@@ -152,8 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc66a40e906b0c949826ea3e0b22bc1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLives: 0
-  playerPoints: 0
 --- !u!4 &282287567
 Transform:
   m_ObjectHideFlags: 0
@@ -720,8 +718,6 @@ MonoBehaviour:
   speed: 0.3
   bound: 8.35
   ball: {fileID: 1024777814}
-  playerLives: 0
-  playerPoints: 0
 --- !u!212 &879790154
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1257,7 +1253,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d09db5f8a62cf24d9a1279225e9ed72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 879790153}
 --- !u!1 &1284747657
 GameObject:
   m_ObjectHideFlags: 0

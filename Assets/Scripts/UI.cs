@@ -5,20 +5,36 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    public GameControl gameControl;
     private UnityEngine.UI.Text life;
     private UnityEngine.UI.Text score;
-    // Start is called before the first frame update
+
     void Start()
     {
         life = transform.Find("Life").GetComponent<UnityEngine.UI.Text>();
         score = transform.Find("Score").GetComponent<UnityEngine.UI.Text>();
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        life.text = "Lives: " + gameControl.playerLives.ToString();
-        score.text = "Score: " + gameControl.playerPoints.ToString();
+        GameControl.takelife += lifeRefresh;
+        GameControl.addscore += scoreRefresh;
+    }
+
+    private void OnDisable()
+    {
+        GameControl.takelife -= lifeRefresh;
+        GameControl.addscore -= scoreRefresh;
+    }
+
+
+    public void lifeRefresh(int playerLives)
+    {
+        life.text = "Lives: " + playerLives.ToString();
+    }
+
+    private void scoreRefresh(int playerPoints)
+    {
+        score.text = "Score: " + playerPoints.ToString();
     }
 }
