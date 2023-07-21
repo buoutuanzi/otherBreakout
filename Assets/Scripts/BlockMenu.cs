@@ -15,7 +15,7 @@ public class BlockMenu : MonoBehaviour
             float X = -7.5f;
             for (int j = 0; j < 7; j++)
             {
-                Vector3 relativePos = new Vector3(X, Y, 0);
+                Vector3 relativePos = new Vector3(X, Y, 0);//达到砖块排列效果
                 GameObject instance = Instantiate(Blocks[(i + j)%3], transform);
                 instance.transform.position = relativePos;
                 X += 2.5f;

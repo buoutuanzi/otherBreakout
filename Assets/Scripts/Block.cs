@@ -9,7 +9,6 @@ public class Block : MonoBehaviour
     private int numberOfHits;
     private GameObject gameControl;
 
-    // Start is called before the first frame update
     void Start()
     {
         gameControl = GameObject.FindGameObjectsWithTag("GameControl")[0];
