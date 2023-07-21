@@ -5,36 +5,36 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    private UnityEngine.UI.Text life;
-    private UnityEngine.UI.Text score;
+    private UnityEngine.UI.Text _lifeText;
+    private UnityEngine.UI.Text _scoreText;
 
     void Start()
     {
-        life = transform.Find("Life").GetComponent<UnityEngine.UI.Text>();
-        score = transform.Find("Score").GetComponent<UnityEngine.UI.Text>();
+        _lifeText = transform.Find("Life").GetComponent<UnityEngine.UI.Text>();
+        _scoreText = transform.Find("Score").GetComponent<UnityEngine.UI.Text>();
         
     }
 
     private void OnEnable()
     {
-        GameControl.takelife += lifeRefresh;
-        GameControl.addscore += scoreRefresh;
+        GameControl.takelife += LifeRefresh;
+        GameControl.addscore += ScoreRefresh;
     }
 
     private void OnDisable()
     {
-        GameControl.takelife -= lifeRefresh;
-        GameControl.addscore -= scoreRefresh;
+        GameControl.takelife -= LifeRefresh;
+        GameControl.addscore -= ScoreRefresh;
     }
 
 
-    public void lifeRefresh(int playerLives)
+    public void LifeRefresh(int playerLives)
     {
-        life.text = "Lives: " + playerLives.ToString();
+        _lifeText.text = "Lives: " + playerLives.ToString();
     }
 
-    private void scoreRefresh(int playerPoints)
+    private void ScoreRefresh(int playerPoints)
     {
-        score.text = "Score: " + playerPoints.ToString();
+        _scoreText.text = "Score: " + playerPoints.ToString();
     }
 }

@@ -5,23 +5,23 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     public int hitsToKill;
-    private int score;
-    private int numberOfHits;
-    private GameObject gameControl;
+    private int _score;
+    private int _numberOfHits;
+    private GameObject _gameControl;
 
     void Start()
     {
-        gameControl = GameObject.FindGameObjectsWithTag("GameControl")[0];
-        numberOfHits = 0;
-        score = hitsToKill * 10;
+        _gameControl = GameObject.FindGameObjectsWithTag("GameControl")[0];
+        _numberOfHits = 0;
+        _score = hitsToKill * 10;
     }
 
-    private void getHit()
+    private void GetHit()
     {
-        numberOfHits++;
-        if (numberOfHits == hitsToKill)
+        _numberOfHits++;
+        if (_numberOfHits == hitsToKill)
         {
-            gameControl.SendMessage("addPoints", score);
+            _gameControl.SendMessage("AddPoints", _score);
             Destroy(this.gameObject);
         }
     }

@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameControl : MonoBehaviour
 {
-    private int playerLives;
-    private int playerPoints;
+    private int _playerLives;
+    private int _playerPoints;
     public delegate void takeLife(int playerLives);
     public static event takeLife takelife;
     public delegate void addScore(int playerPoints);
@@ -15,25 +15,25 @@ public class GameControl : MonoBehaviour
 
     void Start()
     {
-        playerLives = 4;
-        takelife?.Invoke(playerLives);
-        playerPoints = 0;
-        addscore?.Invoke(playerLives);
+        _playerLives = 3;
+        takelife?.Invoke(_playerLives);
+        _playerPoints = 0;
+        addscore?.Invoke(_playerPoints);
     }
 
     private void TakeLife()
     {
-        playerLives--;
-        takelife?.Invoke(playerLives);
-        if (playerLives <= 0)
+        _playerLives--;
+        takelife?.Invoke(_playerLives);
+        if (_playerLives <= 0)
         {
             SceneManager.LoadScene("Main");
         }
     }
 
-    private void addPoints(int points)
+    private void AddPoints(int points)
     {
-        playerPoints += points;
-        addscore?.Invoke(playerPoints);
+        _playerPoints += points;
+        addscore?.Invoke(_playerPoints);
     }
 }

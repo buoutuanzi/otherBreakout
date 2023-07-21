@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class BlockMenu : MonoBehaviour
 {
-    public List<GameObject> Blocks;
+    public List<GameObject> blocks;
     // Start is called before the first frame update
     void Start()
     {
-        float Y = 4f;
-        
+        ArrangeLevel1Blocks();
+    }
+
+    private void ArrangeLevel1Blocks()
+    {
+        float y = 4f;
         for (int i = 0; i < 3; i++)
         {
-            float X = -7.5f;
+            float x = -7.5f;
             for (int j = 0; j < 7; j++)
             {
-                Vector3 relativePos = new Vector3(X, Y, 0);//达到砖块排列效果
-                GameObject instance = Instantiate(Blocks[(i + j)%3], transform);
+                Vector3 relativePos = new Vector3(x, y, 0);//达到砖块排列效果
+                GameObject instance = Instantiate(blocks[(i + j) % 3], transform);
                 instance.transform.position = relativePos;
-                X += 2.5f;
+                x += 2.5f;
             }
-            Y -= 2f;
+            y -= 2f;
         }
     }
 }
