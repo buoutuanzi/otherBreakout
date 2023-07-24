@@ -24,7 +24,7 @@ public class Block : MonoBehaviour, IProduct
         if (Random.Range(0, 100) < chance) //此处为应用几率chance，100个数若随机到得数小于chance则表示将生成道具
         {
             Factory[] factories = _gameControl.GetComponentsInChildren<FactoryPowerup>();
-            _factory = factories[Random.Range(0, factories.Length - 1)];
+            _factory = factories[Random.Range(0, factories.Length)];
         }
     }
 
