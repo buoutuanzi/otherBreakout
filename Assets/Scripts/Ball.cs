@@ -16,15 +16,16 @@ public class Ball : MonoBehaviour
 
     private Vector2 _reflectForce;
     private Vector2 _horizontalPreventionForce;
+
     // Start is called before the first frame update
     void Start()
     {
-        _ballInitialForce = new Vector2(200f, 450f); 
+        _ballInitialForce = new Vector2(200f, 400f); 
         _isActive = false;
         _ballPosition = transform.position;
         _rb = GetComponent<Rigidbody2D>();   //当小球碰到玩家操控的平台时，小球一定会向上，
-        _reflectForce = new Vector2(0f, 450f); //所以先创建出来一个已经设置好y的Vector，等碰撞时再计算x
-        _horizontalPreventionForce = new Vector2(0f, 50f);    
+        _reflectForce = new Vector2(0f, 400f); //所以先创建出来一个已经设置好y的Vector，等碰撞时再计算x
+        _horizontalPreventionForce = new Vector2(0f, -50f);    
     }
 
     public void Fire()
@@ -71,7 +72,7 @@ public class Ball : MonoBehaviour
             collision.gameObject.SendMessage("GetHit");
         } else if (collision.gameObject.tag == "Wall")
         {//在极端情况下，小球会在两边墙之间水平弹跳导致游戏无法继续进行，因此这里检测当球撞击墙壁时是否y的velocity是0
-            if (_isActive && _rb.velocity.y == 0)
+            if (_isActive && Mathf.Abs(_rb.velocity.y) <= 1)
             {
                 Debug.Log("Ball is moving horizontally");
                 _rb.AddForce(_horizontalPreventionForce); //若y方向速度为0则手动添加一股力，防止游戏卡住
