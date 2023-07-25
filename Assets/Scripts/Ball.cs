@@ -65,11 +65,11 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.tag == "Player" && _isActive)
         {
             _rb.velocity = Vector2.zero;//清零以防叠加
-            float xDistanceToMiddle = (transform.position.x - player.transform.position.x) / 1.5f;
+            float xDistanceToMiddle = (transform.position.x - player.transform.position.x) / 1.6f;
             //这里是根据碰撞时与中心的距离，再除以两边到中间的距离的百分比来决定反弹力的x方向
-            //平台一半的距离大概是1.25，这里用的1.5是因为有的时候可能因为小球碰撞在两边，小球的半径将成为离中心距离的一部分，
-            //但是这种情况毕竟是少数，所以取一个大概值1.5，防止x方向的力计算出大于预期，导致球移动过快
-            _reflectForce.x = xDistanceToMiddle * 300;
+            //平台一半的距离大概是1.25，这里用的1.6是因为有的时候可能因为小球碰撞在两边，小球的半径将成为离中心距离的一部分，
+            //但是这种情况毕竟是少数，所以取一个大概值1.6，防止x方向的力计算出大于预期，导致球移动过快
+            _reflectForce.x = xDistanceToMiddle * 250;
             _rb.AddForce(_reflectForce);
         } else if (collision.gameObject.tag == "Block")
         {
