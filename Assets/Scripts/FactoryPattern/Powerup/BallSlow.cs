@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BallSlow : Powerup, IProduct
 {
+    public delegate void Slow();
+    public static event Slow slow;
+
     [SerializeField] private string _productName = "BallSlow";
 
     public override string productName { get => _productName; set => _productName = value; }
@@ -12,6 +15,7 @@ public class BallSlow : Powerup, IProduct
     {
         if (collision.gameObject.tag == "Player")
         {
+            slow?.Invoke();
             Debug.Log("ball is slowing down!");
             Destroy(this.gameObject);
         }

@@ -8,7 +8,6 @@ public class Block : MonoBehaviour, IProduct
     private int _score;
     private int _numberOfHits;
     private GameObject _gameControl;
-    private float dropChance;
 
     private Factory _factory;
 

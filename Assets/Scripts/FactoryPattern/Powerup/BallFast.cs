@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static BallSlow;
 
 public class BallFast : Powerup, IProduct
 {
+    public delegate void Fast();
+    public static event Fast fast;
     [SerializeField] private string _productName = "BallFast";
 
     public override string productName { get => _productName; set => _productName = value; }
@@ -12,6 +15,7 @@ public class BallFast : Powerup, IProduct
     {
         if (collision.gameObject.tag == "Player")
         {
+            fast?.Invoke();
             Debug.Log("ball is getting faster!");
             Destroy(this.gameObject);
         }

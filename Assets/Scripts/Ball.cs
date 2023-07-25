@@ -17,19 +17,23 @@ public class Ball : MonoBehaviour
     private Vector2 _reflectForce;
     private Vector2 _horizontalPreventionForce;
 
+    private enum Speed {Slower, Regular, Faster};//表示球的三个状态，以便之后区分和编程
+    private Speed _currentSpeed;
+
     // Start is called before the first frame update
     void Start()
     {
         _ballInitialForce = new Vector2(200f, 400f); 
         _isActive = false;
         _ballPosition = transform.position;
-        _rb = GetComponent<Rigidbody2D>();   //当小球碰到玩家操控的平台时，小球一定会向上，
-        _reflectForce = new Vector2(0f, 400f); //所以先创建出来一个已经设置好y的Vector，等碰撞时再计算x
-        _horizontalPreventionForce = new Vector2(0f, -50f);    
+        _rb = GetComponent<Rigidbody2D>();
+        _horizontalPreventionForce = new Vector2(0f, -50f);
+        _reflectForce = new Vector2(0f, 0f); //先创建出来一个的Vector，等碰撞时再计算x，y由速度决定
     }
 
     public void Fire()
     {
+        ForceReset(); //由于有时玩家会在小球掉下去重置的同时吃到道具，所以在这里重置在这里以保证初始力和反弹力的统一
         if (!_isActive)
         {
             _rb.AddForce(_ballInitialForce);
@@ -54,8 +58,10 @@ public class Ball : MonoBehaviour
             transform.position = _ballPosition;
             _rb.velocity = Vector2.zero; //重置时将velocity清零以防叠加
             gameControl.SendMessage("TakeLife");
-        }     
+            player.SendMessage("LengthReset");
+        }
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player" && _isActive)
@@ -78,5 +84,76 @@ public class Ball : MonoBehaviour
                 _rb.AddForce(_horizontalPreventionForce); //若y方向速度为0则手动添加一股力，防止游戏卡住
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        BallFast.fast += PowerUpFasterReceived;
+        BallSlow.slow += PowerUpSlowerReceived;
+    }
+
+    private void OnDisable()
+    {
+        BallFast.fast -= PowerUpFasterReceived;
+        BallSlow.slow -= PowerUpSlowerReceived;
+    }
+
+    private void PowerUpSlowerReceived()
+    {   //若玩家在小球飞行过程中吃到这个道具，小球也需要立刻变换速度，因此这里先把小球当前的速度按照设置好的比例乘上
+        //由于每次撞到玩家平台都会清零，重新使力，所以不用担心会影响之后的速度
+        _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 0.625f);
+        switch (_currentSpeed)
+        {
+            case Speed.Slower:
+                break;
+            case Speed.Regular:
+                _currentSpeed = Speed.Slower;
+                break;
+            case Speed.Faster:
+                _currentSpeed = Speed.Regular;
+                break;
+        }
+        ForceRefresh();
+    }
+
+    private void PowerUpFasterReceived()
+    {
+        _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 1.375f);
+        switch (_currentSpeed)
+        {
+            case Speed.Slower:
+                _currentSpeed = Speed.Regular;
+                break;
+            case Speed.Regular:
+                _currentSpeed = Speed.Faster;
+                break;
+            case Speed.Faster:
+                break;
+        }
+        ForceRefresh();
+    }
+
+    private void ForceRefresh()
+    {//虽然说理论上我们要改速度，但是由于小球是用力推动，所以改变速度更倾向于是改变与平台接触时施加的力的大小
+        //改速度只会在上面小球正在飞行的过程中会用到
+        Debug.Log("Speed change, ball speed status is" + _currentSpeed);
+        switch (_currentSpeed)
+        {
+            case Speed.Slower:
+                _reflectForce.y = 250;
+                break;
+            case Speed.Regular:
+                _reflectForce.y = 400;
+                break;
+            case Speed.Faster:
+                _reflectForce.y = 550;
+                break;
+        }
+    }
+
+    private void ForceReset()
+    {
+        _currentSpeed = Speed.Regular;
+        ForceRefresh();
     }
 }
