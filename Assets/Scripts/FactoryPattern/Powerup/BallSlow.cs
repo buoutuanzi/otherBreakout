@@ -16,7 +16,6 @@ public class BallSlow : Powerup, IProduct
         if (collision.gameObject.tag == "Player")
         {
             slow?.Invoke();
-            Debug.Log("ball is slowing down!");
             Destroy(this.gameObject);
         }
     }

@@ -16,7 +16,6 @@ public class BallFast : Powerup, IProduct
         if (collision.gameObject.tag == "Player")
         {
             fast?.Invoke();
-            Debug.Log("ball is getting faster!");
             Destroy(this.gameObject);
         }
     }
