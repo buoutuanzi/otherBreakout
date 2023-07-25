@@ -101,7 +101,7 @@ public class Ball : MonoBehaviour
     private void PowerUpSlowerReceived()
     {   //若玩家在小球飞行过程中吃到这个道具，小球也需要立刻变换速度，因此这里先把小球当前的速度按照设置好的比例乘上
         //由于每次撞到玩家平台都会清零，重新使力，所以不用担心会影响之后的速度
-        _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 0.625f);
+        _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * VelocityMultiplierSlower());
         switch (_currentSpeed)
         {
             case Speed.Slower:
@@ -118,7 +118,7 @@ public class Ball : MonoBehaviour
 
     private void PowerUpFasterReceived()
     {
-        _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 1.375f);
+        _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * VelocityMultiplierFaster());
         switch (_currentSpeed)
         {
             case Speed.Slower:
@@ -155,5 +155,33 @@ public class Ball : MonoBehaviour
     {
         _currentSpeed = Speed.Regular;
         ForceRefresh();
+    }
+
+    private float VelocityMultiplierFaster() //这里设置好velocity需要乘的比例以匹配力的变化
+    {
+        switch (_currentSpeed)
+        {
+            case Speed.Slower:
+                return 1.6f;
+            case Speed.Regular:
+                return 1.375f;
+            case Speed.Faster:
+                return 1f;
+        }
+        return float.NaN;
+    }
+
+    private float VelocityMultiplierSlower()
+    {
+        switch (_currentSpeed)
+        {
+            case Speed.Slower:
+                return 1f;
+            case Speed.Regular:
+                return 0.625f;
+            case Speed.Faster:
+                return 0.728f;
+        }
+        return float.NaN;
     }
 }
