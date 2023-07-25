@@ -31,9 +31,9 @@ public class Ball : MonoBehaviour
 
     public void Fire()
     {
-        ForceReset(); //由于有时玩家会在小球掉下去重置的同时吃到道具，所以在这里重置在这里以保证初始力和反弹力的统一
         if (!_isActive)
         {
+            ForceReset(); //由于有时玩家会在小球掉下去重置的同时吃到道具，所以在这里重置在这里以保证初始力和反弹力的统一
             _rb.AddForce(_ballInitialForce);
             _isActive = true;
         }
@@ -99,8 +99,10 @@ public class Ball : MonoBehaviour
     private void PowerUpSlowerReceived()
     {   //若玩家在小球飞行过程中吃到这个道具，小球也需要立刻变换速度，因此这里先把小球当前的速度按照设置好的比例乘上
         //由于每次撞到玩家平台都会清零，重新使力，所以不用担心会影响之后的速度
+        Vector2 newVelocity = new Vector2(_rb.velocity.x, _rb.velocity.y) * VelocityMultiplierSlower();
         Debug.Log("原本y速度是" + _rb.velocity.y);
-        _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * VelocityMultiplierSlower());
+        _rb.velocity = Vector2.zero; //清空当前速度防止有时不生效
+        _rb.velocity = newVelocity;
         Debug.Log("现在y速度是" + _rb.velocity.y);
         switch (_currentSpeed)
         {
@@ -118,8 +120,10 @@ public class Ball : MonoBehaviour
 
     private void PowerUpFasterReceived()
     {
+        Vector2 newVelocity = new Vector2(_rb.velocity.x, _rb.velocity.y) * VelocityMultiplierFaster();
         Debug.Log("原本y速度是" + _rb.velocity.y);
-        _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * VelocityMultiplierFaster());
+        _rb.velocity = Vector2.zero;
+        _rb.velocity = newVelocity;
         Debug.Log("现在y速度是" + _rb.velocity.y);
         switch (_currentSpeed)
         {
