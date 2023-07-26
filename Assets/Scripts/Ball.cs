@@ -10,7 +10,7 @@ public class Ball : MonoBehaviour
     private Rigidbody2D _rb;
 
     public GameObject player;
-    private float playerSizeHalf;
+    private float playerSizeHalf; //玩家一半长度用来计算反弹角度
     public GameObject gameControl;
 
     private float _speed;
@@ -27,7 +27,7 @@ public class Ball : MonoBehaviour
         _ballPosition = transform.position;
         _rb = GetComponent<Rigidbody2D>();
         _maxAngle = 60f;
-        _horizontalPreventionQ = Quaternion.AngleAxis(10, Vector3.forward);
+        _horizontalPreventionQ = Quaternion.AngleAxis(10, Vector3.forward);//用来给水平小球转向
         BallReset();
     }
 
@@ -68,8 +68,7 @@ public class Ball : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player" && _isActive)
-        {
-            Debug.Log(playerSizeHalf);
+        {//根据集中点到中心的距离决定小球的转向，clamp用来防止过度转向，控制在【-60，60】度之间
             float xDistanceToMiddle = (player.transform.position.x - transform.position.x) / playerSizeHalf;
             float bounceAngle = xDistanceToMiddle * _maxAngle;
             bounceAngle = Mathf.Clamp(bounceAngle, -_maxAngle, _maxAngle);
@@ -92,7 +91,7 @@ public class Ball : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void OnEnable()//同时监听平台长度变化，使反弹角度更自然过度
     {
         BallFast.fast += PowerUpFasterReceived;
         BallSlow.slow += PowerUpSlowerReceived;
@@ -141,8 +140,7 @@ public class Ball : MonoBehaviour
     }
 
     private void SpeedRefresh()
-    {//虽然说理论上我们要改速度，但是由于小球是用力推动，所以改变速度更倾向于是改变与平台接触时施加的力的大小
-        //改速度只会在上面小球正在飞行的过程中会用到
+    {
         Debug.Log("Speed change, ball speed status is" + _currentSpeed);
         switch (_currentSpeed)
         {
