@@ -20,6 +20,9 @@ public class Ball : MonoBehaviour
     private enum Speed {Slower, Regular, Faster};//表示球的三个状态，以便之后区分和编程
     private Speed _currentSpeed;
 
+    [SerializeField] private int _damage;
+    private SpriteRenderer _colorRenderer;
+
     void Start()
     {
         _ballInitialForce = new Vector2(1f, 2f).normalized; 
@@ -28,6 +31,7 @@ public class Ball : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _maxAngle = 60f;
         _horizontalPreventionQ = Quaternion.AngleAxis(10, Vector3.forward);//用来给水平小球转向
+        _colorRenderer = GetComponent<SpriteRenderer>();
         BallReset();
     }
 
@@ -68,18 +72,22 @@ public class Ball : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player" && _isActive)
-        {//根据集中点到中心的距离决定小球的转向，clamp用来防止过度转向，控制在【-60，60】度之间
+        {
+            //根据集中点到中心的距离决定小球的转向，clamp用来防止过度转向，控制在【-60，60】度之间
             float xDistanceToMiddle = (player.transform.position.x - transform.position.x) / _playerSizeHalf;
             float bounceAngle = xDistanceToMiddle * _maxAngle;
             bounceAngle = Mathf.Clamp(bounceAngle, -_maxAngle, _maxAngle);
             Vector2 reflectDirection = Quaternion.AngleAxis(bounceAngle, Vector3.forward) * Vector2.up;
-
             _rb.velocity = _rb.velocity.magnitude * reflectDirection;
+
         } else if (collision.gameObject.tag == "Block")
         {
-            collision.gameObject.SendMessage("GetHit");
+
+            collision.gameObject.SendMessage("GetHit", _damage);
+
         } else if (collision.gameObject.tag == "Wall")
-        {//在极端情况下，小球会在两边墙之间水平弹跳或接近导致游戏无法继续进行或过于缓慢，
+        {
+            //在极端情况下，小球会在两边墙之间水平弹跳或接近导致游戏无法继续进行或过于缓慢，
          //因此这里检测当球撞击墙壁时是否y的velocity是否非常接近为0
             if (_isActive && Mathf.Abs(_rb.velocity.y) <= 0.5f)
             {
@@ -88,6 +96,7 @@ public class Ball : MonoBehaviour
                 ballCurDirection = _horizontalPreventionQ * ballCurDirection;
                 _rb.velocity = ballCurDirection * _rb.velocity.magnitude;
             }
+
         }
     }
 
@@ -95,6 +104,7 @@ public class Ball : MonoBehaviour
     {
         BallFast.fast += PowerUpFasterReceived;
         BallSlow.slow += PowerUpSlowerReceived;
+        BallDamageUp.damageUp += PowerUpDamageReceived;
         PlatformShrink.shrink += PlayerSizeUpdate;
         PlatformExtend.extend += PlayerSizeUpdate;
     }
@@ -103,6 +113,7 @@ public class Ball : MonoBehaviour
     {
         BallFast.fast -= PowerUpFasterReceived;
         BallSlow.slow -= PowerUpSlowerReceived;
+        BallDamageUp.damageUp -= PowerUpDamageReceived;
         PlatformShrink.shrink -= PlayerSizeUpdate;
         PlatformExtend.extend -= PlayerSizeUpdate;
     }
@@ -139,6 +150,12 @@ public class Ball : MonoBehaviour
         SpeedRefresh();
     }
 
+    private void PowerUpDamageReceived()
+    {
+        _damage = 2;
+        _colorRenderer.color = Color.red;//小球有攻击力buff时颜色变化
+    }
+
     private void SpeedRefresh()
     {
         Debug.Log("Speed change, ball speed status is" + _currentSpeed);
@@ -158,6 +175,9 @@ public class Ball : MonoBehaviour
 
     private void BallReset()
     {
+        _damage = 1;
+        _colorRenderer.color = Color.white; //小球默认颜色，会随着攻击力变化
+
         _isActive = false;
         _ballPosition.y = -4.258f;
         _rb.velocity = Vector2.zero;

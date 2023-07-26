@@ -27,10 +27,10 @@ public class Block : MonoBehaviour, IProduct
         }
     }
 
-    private void GetHit()
+    private void GetHit(int damage)
     {
-        _numberOfHits++;
-        if (_numberOfHits == hitsToKill)
+        _numberOfHits += damage;
+        if (_numberOfHits >= hitsToKill)
         {
             _gameControl.SendMessage("AddPoints", _score);
             if (_factory != null) 
