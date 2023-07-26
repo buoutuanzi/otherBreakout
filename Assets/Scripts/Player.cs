@@ -22,14 +22,13 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        _leftBound = new Vector3(-bound, transform.position.y, transform.position.z); //提前设置好玩家可移动的边缘坐标，所以玩家
-        _rightBound = new Vector3(bound, transform.position.y, transform.position.z);//所以当玩家尝试向外移动时可以被直接置入在这个坐标中
         _moveDistance = new Vector3(0, 0, 0);
 
         _shrinkSize = new Vector3(2f, 0.3f, 1);
         _regularSize = new Vector3(2.5f, 0.3f, 1);
         _extendSize = new Vector3(3.5f, 0.3f, 1);
         LengthReset();
+        SetBounds();
     }
 
     private void OnEnable()
@@ -59,10 +58,10 @@ public class Player : MonoBehaviour
     {
         _moveDistance.x = _movementX * speed;
         float newPositionX = transform.position.x + _moveDistance.x;
-        if (newPositionX < -bound)
+        if (newPositionX < _leftBound.x)
         {
             transform.position = _leftBound;
-        } else if (newPositionX > bound)
+        } else if (newPositionX > _rightBound.x)
         {
             transform.position = _rightBound;
         } else
@@ -117,11 +116,19 @@ public class Player : MonoBehaviour
                 transform.localScale = _extendSize;
                 break;
         }
+        SetBounds();
     }
 
     private void LengthReset()
     {
         _currentState = State.RegularSize;
         LengthRefresh();
+    }
+
+    private void SetBounds()
+    {
+        float halfLength = transform.localScale.x / 2;
+        _leftBound = new Vector3(-bound + halfLength, transform.position.y, transform.position.z);
+        _rightBound = new Vector3(bound - halfLength, transform.position.y, transform.position.z);
     }
 }

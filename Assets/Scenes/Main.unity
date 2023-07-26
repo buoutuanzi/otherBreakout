@@ -978,7 +978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.3
-  bound: 8.35
+  bound: 9.6
   ball: {fileID: 1024777814}
   _shrinkSize: {x: 0, y: 0, z: 0}
   _regularSize: {x: 0, y: 0, z: 0}
