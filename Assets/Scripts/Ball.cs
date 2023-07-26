@@ -10,7 +10,7 @@ public class Ball : MonoBehaviour
     private Rigidbody2D _rb;
 
     public GameObject player;
-    private float playerSizeHalf; //玩家一半长度用来计算反弹角度
+    private float _playerSizeHalf; //玩家一半长度用来计算反弹角度
     public GameObject gameControl;
 
     private float _speed;
@@ -69,7 +69,7 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && _isActive)
         {//根据集中点到中心的距离决定小球的转向，clamp用来防止过度转向，控制在【-60，60】度之间
-            float xDistanceToMiddle = (player.transform.position.x - transform.position.x) / playerSizeHalf;
+            float xDistanceToMiddle = (player.transform.position.x - transform.position.x) / _playerSizeHalf;
             float bounceAngle = xDistanceToMiddle * _maxAngle;
             bounceAngle = Mathf.Clamp(bounceAngle, -_maxAngle, _maxAngle);
             Vector2 reflectDirection = Quaternion.AngleAxis(bounceAngle, Vector3.forward) * Vector2.up;
@@ -168,6 +168,6 @@ public class Ball : MonoBehaviour
 
     private void PlayerSizeUpdate()
     {
-        playerSizeHalf = player.transform.localScale.x;
+        _playerSizeHalf = player.transform.localScale.x;
     }
 }

@@ -1,3 +1,2 @@
 @echo off
-cd "C:\Users\zhangyiming\Desktop\breakout\Build"
-start breakout.exe
+start %~dp0\Build\breakout.exe
