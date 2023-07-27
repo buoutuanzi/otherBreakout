@@ -54,7 +54,7 @@ public class Ball : MonoBehaviour
             transform.position = _ballPosition;
         }
 
-        if (_isActive && transform.position.y < -5.5)
+        if (_isActive && transform.position.y < -5)
         {
             player.SendMessage("LengthReset");
             BallReset();
@@ -155,7 +155,7 @@ public class Ball : MonoBehaviour
         SpeedRefresh();
 
         _isActive = false;
-        _ballPosition.y = -4.258f;
+        _ballPosition.y = -4.29f;
         _rb.velocity = Vector2.zero;
         PlayerSizeUpdate();
     }
