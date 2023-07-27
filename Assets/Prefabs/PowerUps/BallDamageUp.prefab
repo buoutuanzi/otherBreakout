@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 6984249304995925935}
   - component: {fileID: 4493185267506166889}
   - component: {fileID: 143217773016458179}
-  - component: {fileID: 6227258194147268881}
+  - component: {fileID: 384826301377380159}
   m_Layer: 0
   m_Name: BallDamageUp
   m_TagString: Powerup
@@ -181,7 +181,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6227258194147268881
+--- !u!114 &384826301377380159
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,6 +190,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6298229700890339470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4166d88af0151e444bba3b3bc8070349, type: 3}
+  m_Script: {fileID: 11500000, guid: 58739da27c349534fa2eefb80e1f0cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

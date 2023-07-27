@@ -14,33 +14,31 @@ public class Player : MonoBehaviour
     private Vector3 _rightBound;
     public Ball ball;
 
-    private enum State {Shrinking, RegularSize, Extending};//表示玩家平台的三个状态，以便之后区分和编程
-    private State _currentState;
-    [SerializeField] private Vector3 _shrinkSize;
-    [SerializeField] private Vector3 _regularSize;
-    [SerializeField] private Vector3 _extendSize;
+    private int _currentSizeIndex;
+    [SerializeField] private Vector3[] _sizes;
 
     void Start()
     {
         _moveDistance = new Vector3(0, 0, 0);
 
-        _shrinkSize = new Vector3(2f, 0.3f, 1);
-        _regularSize = new Vector3(2.5f, 0.3f, 1);
-        _extendSize = new Vector3(3.5f, 0.3f, 1);
+        Vector3 _shrinkSize = new Vector3(2f, 0.3f, 1);
+        Vector3 _regularSize = new Vector3(2.5f, 0.3f, 1);
+        Vector3 _extendSize = new Vector3(3.5f, 0.3f, 1);
+        _sizes = new Vector3[] {_shrinkSize, _regularSize, _extendSize};
+        //依旧需要从小到大排列，变小index--，变大index++
         LengthReset();
-        SetBounds();
     }
 
     private void OnEnable()
     {
-        PlatformShrink.shrink += PowerUpShrinkReceived;
-        PlatformExtend.extend += PowerUpExtendReceived;
+        Powerup.shrink += PowerUpShrinkReceived;
+        Powerup.extend += PowerUpExtendReceived;
     }
 
     private void OnDisable()
     {
-        PlatformShrink.shrink -= PowerUpShrinkReceived;
-        PlatformExtend.extend -= PowerUpExtendReceived;
+        Powerup.shrink -= PowerUpShrinkReceived;
+        Powerup.extend -= PowerUpExtendReceived;
     }
 
     private void OnMove(InputValue moveVal)
@@ -72,61 +70,33 @@ public class Player : MonoBehaviour
 
     private void PowerUpShrinkReceived()
     {
-        switch (_currentState)
+        if (_currentSizeIndex > 0)
         {
-            case State.Shrinking:
-                break;
-            case State.RegularSize:
-                _currentState = State.Shrinking;
-                break;
-            case State.Extending:
-                _currentState = State.RegularSize;
-                break;
+            _currentSizeIndex--;
+            Debug.Log("platform is shorter!");
         }
-        LengthRefresh();
+        SetSizeBounds();
     }
 
     private void PowerUpExtendReceived()
     {
-        switch (_currentState)
+        if (_currentSizeIndex < 2)
         {
-            case State.Shrinking:
-                _currentState = State.RegularSize;
-                break;
-            case State.RegularSize:
-                _currentState = State.Extending;
-                break;
-            case State.Extending:
-                break;
+            _currentSizeIndex++;
+            Debug.Log("platform is longer!");
         }
-        LengthRefresh();
-    }
-
-    private void LengthRefresh()
-    {
-        switch (_currentState)
-        {
-            case State.Shrinking:
-                transform.localScale = _shrinkSize;
-                break;
-            case State.RegularSize:
-                transform.localScale = _regularSize;
-                break;
-            case State.Extending:
-                transform.localScale = _extendSize;
-                break;
-        }
-        SetBounds();
+        SetSizeBounds();
     }
 
     private void LengthReset()
     {
-        _currentState = State.RegularSize;
-        LengthRefresh();
+        _currentSizeIndex = 1;
+        SetSizeBounds();
     }
 
-    private void SetBounds()
-    {
+    private void SetSizeBounds()
+    {//将设置平台大小和边缘放进一个方法中，因为他们之间关系接近，可减少代码重复
+        transform.localScale = _sizes[_currentSizeIndex];
         float halfLength = transform.localScale.x / 2;
         _leftBound = new Vector3(-bound + halfLength, transform.position.y, transform.position.z);
         _rightBound = new Vector3(bound - halfLength, transform.position.y, transform.position.z);

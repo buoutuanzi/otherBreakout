@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Block : MonoBehaviour, IProduct
+public class Block : MonoBehaviour
 {
     public int hitsToKill;
     private int _score;
     private int _numberOfHits;
     private GameObject _gameControl;
 
-    private Factory _factory;
-
-    [SerializeField] private string _productName = "Block";
-    public string productName { get => _productName; set => _productName = value; }
+    private FactoryPowerup _factoryPowerup;
+    private int _powerupIndex;
 
     public void Initialize()
     {
@@ -22,8 +20,8 @@ public class Block : MonoBehaviour, IProduct
         float chance = hitsToKill * 10; //根据方块血量决定掉落道具几率，分别为10%，20%，40%
         if (Random.Range(0, 100) < chance) //此处为应用几率chance，100个数若随机到得数小于chance则表示将生成道具
         {
-            Factory[] factories = _gameControl.GetComponentsInChildren<FactoryPowerup>();
-            _factory = factories[Random.Range(0, factories.Length)];
+            _factoryPowerup = _gameControl.GetComponentInChildren<FactoryPowerup>();
+            _powerupIndex = Random.Range(0, _factoryPowerup.GetPowerupListLength());
         }
     }
 
@@ -33,12 +31,11 @@ public class Block : MonoBehaviour, IProduct
         if (_numberOfHits >= hitsToKill)
         {
             _gameControl.SendMessage("AddPoints", _score);
-            if (_factory != null) 
+            if (_factoryPowerup != null) //如果有道具则生成掉落
             {
-                _factory.GetProduct(transform.position);
+                _factoryPowerup.GetProduct(transform.position, _powerupIndex);
             }
             Destroy(this.gameObject);
-            
         }
     }
 }

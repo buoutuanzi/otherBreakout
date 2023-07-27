@@ -2,21 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class FactoryPowerup : Factory
+public class FactoryPowerup : MonoBehaviour
 {
-    abstract protected Powerup _powerupPrefab { get; set; }
-
-    public override IProduct GetProduct(Vector3 position)
+    [SerializeField] private Powerup[] powerupPrefabs;
+    public Powerup GetProduct(Vector3 position, int index)
     {
-        if (_powerupPrefab == null)
+        if (index < 0 || index >= GetPowerupListLength())
         {
-            throw new System.NotImplementedException();
+            throw new System.IndexOutOfRangeException();
         }
         Quaternion spawnQuaternion = Quaternion.identity;
         spawnQuaternion.eulerAngles = new Vector3(0, 0, 90);//由于创造prefab时胶囊形状默认为竖着的，所以要旋转90度
-        GameObject instance = Instantiate(_powerupPrefab.gameObject, position, spawnQuaternion);
-        Powerup newProduct = instance.GetComponent<Powerup>();
-        newProduct.Initialize();
-        return newProduct;
+        Powerup instance = Instantiate(powerupPrefabs[index], position, spawnQuaternion);
+        instance.Initialize(powerupPrefabs[index].name);
+        return instance;
+    }
+
+    public int GetPowerupListLength()
+    {
+        return powerupPrefabs.Length;
     }
 }

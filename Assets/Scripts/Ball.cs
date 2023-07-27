@@ -13,12 +13,12 @@ public class Ball : MonoBehaviour
     private float _playerSizeHalf; //玩家一半长度用来计算反弹角度
     public GameObject gameControl;
 
-    private float _speed;
+    private float _currentSpeed;
+    private int _currentSpeedIndex;
+    [SerializeField] private float[] _speeds;//装着三个档位的速度
+
     private float _maxAngle;
     private Quaternion _horizontalPreventionQ;
-
-    private enum Speed {Slower, Regular, Faster};//表示球的三个状态，以便之后区分和编程
-    private Speed _currentSpeed;
 
     [SerializeField] private int _damage;
     private SpriteRenderer _colorRenderer;
@@ -32,6 +32,7 @@ public class Ball : MonoBehaviour
         _maxAngle = 60f;
         _horizontalPreventionQ = Quaternion.AngleAxis(10, Vector3.forward);//用来给水平小球转向
         _colorRenderer = GetComponent<SpriteRenderer>();
+        _speeds = new float[] { 5f, 8f, 11f };//需要由大到小排列好，这样加速index++，减速index--
         BallReset();
     }
 
@@ -39,7 +40,7 @@ public class Ball : MonoBehaviour
     {
         if (!_isActive)
         {
-            _rb.AddForce(_ballInitialForce * _speed, ForceMode2D.Impulse);
+            _rb.AddForce(_ballInitialForce * _currentSpeed, ForceMode2D.Impulse);
             _isActive = true;
         }
     }
@@ -65,7 +66,7 @@ public class Ball : MonoBehaviour
     {
         if (_isActive)
         {
-            _rb.velocity = _rb.velocity.normalized * _speed;
+            _rb.velocity = _rb.velocity.normalized * _currentSpeed;
         }
     }
 
@@ -102,52 +103,40 @@ public class Ball : MonoBehaviour
 
     private void OnEnable()//同时监听平台长度变化，使反弹角度更自然过度
     {
-        BallFast.fast += PowerUpFasterReceived;
-        BallSlow.slow += PowerUpSlowerReceived;
-        BallDamageUp.damageUp += PowerUpDamageReceived;
-        PlatformShrink.shrink += PlayerSizeUpdate;
-        PlatformExtend.extend += PlayerSizeUpdate;
+        Powerup.fast += PowerUpFasterReceived;
+        Powerup.slow += PowerUpSlowerReceived;
+        Powerup.damageUp += PowerUpDamageReceived;
+        Powerup.shrink += PlayerSizeUpdate;
+        Powerup.extend += PlayerSizeUpdate;
     }
 
     private void OnDisable()
     {
-        BallFast.fast -= PowerUpFasterReceived;
-        BallSlow.slow -= PowerUpSlowerReceived;
-        BallDamageUp.damageUp -= PowerUpDamageReceived;
-        PlatformShrink.shrink -= PlayerSizeUpdate;
-        PlatformExtend.extend -= PlayerSizeUpdate;
+        Powerup.fast -= PowerUpFasterReceived;
+        Powerup.slow -= PowerUpSlowerReceived;
+        Powerup.damageUp -= PowerUpDamageReceived;
+        Powerup.shrink -= PlayerSizeUpdate;
+        Powerup.extend -= PlayerSizeUpdate;
     }
 
     private void PowerUpSlowerReceived()
-    {   
-        switch (_currentSpeed)
+    {
+        if (_currentSpeedIndex > 0)//当index是0，即最慢速度时将会跳过
         {
-            case Speed.Slower:
-                break;
-            case Speed.Regular:
-                _currentSpeed = Speed.Slower;
-                break;
-            case Speed.Faster:
-                _currentSpeed = Speed.Regular;
-                break;
+            _currentSpeedIndex--;
+            SpeedRefresh();
+            Debug.Log("ball is slower!");
         }
-        SpeedRefresh();
     }
 
     private void PowerUpFasterReceived()
     {
-        switch (_currentSpeed)
+        if (_currentSpeedIndex < 2)//当index是2，即最快速度时将会跳过
         {
-            case Speed.Slower:
-                _currentSpeed = Speed.Regular;
-                break;
-            case Speed.Regular:
-                _currentSpeed = Speed.Faster;
-                break;
-            case Speed.Faster:
-                break;
+            _currentSpeedIndex++;
+            SpeedRefresh();
+            Debug.Log("ball is faster!");
         }
-        SpeedRefresh();
     }
 
     private void PowerUpDamageReceived()
@@ -156,38 +145,28 @@ public class Ball : MonoBehaviour
         _colorRenderer.color = Color.red;//小球有攻击力buff时颜色变化
     }
 
-    private void SpeedRefresh()
-    {
-        Debug.Log("Speed change, ball speed status is" + _currentSpeed);
-        switch (_currentSpeed)
-        {
-            case Speed.Slower:
-                _speed = 5;
-                break;
-            case Speed.Regular:
-                _speed = 8;
-                break;
-            case Speed.Faster:
-                _speed = 11;
-                break;
-        }
-    }
 
     private void BallReset()
     {
         _damage = 1;
         _colorRenderer.color = Color.white; //小球默认颜色，会随着攻击力变化
 
+        _currentSpeedIndex = 1;
+        SpeedRefresh();
+
         _isActive = false;
         _ballPosition.y = -4.258f;
         _rb.velocity = Vector2.zero;
-        _currentSpeed = Speed.Regular;
         PlayerSizeUpdate();
-        SpeedRefresh();
     }
 
     private void PlayerSizeUpdate()
     {
         _playerSizeHalf = player.transform.localScale.x;
+    }
+
+    private void SpeedRefresh()
+    {
+        _currentSpeed = _speeds[_currentSpeedIndex];
     }
 }

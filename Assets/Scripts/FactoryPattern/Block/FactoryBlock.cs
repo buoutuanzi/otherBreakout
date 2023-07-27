@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class FactoryBlock : Factory
+public class FactoryBlock : MonoBehaviour
 {
-    abstract protected Block _blockPrefab { get; set; }
+    [SerializeField] private Block[] blockPrefabs;
 
-    public override IProduct GetProduct(Vector3 position)
+    public Block GetProduct(Vector3 position, int index)
     {
-        if (_blockPrefab == null)
+        if (index < 0 || index >= GetBlockListLength())
         {
-            throw new System.NotImplementedException();
+            throw new System.IndexOutOfRangeException();
         }
-        GameObject instance = Instantiate(_blockPrefab.gameObject, position, Quaternion.identity);
-        Block newProduct = instance.GetComponent<Block>();
-        newProduct.Initialize();
-        return newProduct;
+        Block instance = Instantiate(blockPrefabs[index], position, Quaternion.identity);
+        instance.Initialize();
+        return instance;
+    }
+
+    public int GetBlockListLength()
+    {
+        return blockPrefabs.Length;
     }
 }
