@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6115737f9904fb84ba427d7eaf3e3da6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockPrefabs:
+  _blockPrefabs:
   - {fileID: 2551118671888553392, guid: dd522e911b516a64886f5aa26e9c2605, type: 3}
   - {fileID: 7737263085479046924, guid: 23f8589a995237240a6be0bde519b2e2, type: 3}
   - {fileID: 6272680878868808678, guid: e0f712eedc1a9e84fa475ffe023e409c, type: 3}
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a3c88850b8be04694ebf413c1c808e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerupPrefabs:
+  _powerupPrefabs:
   - {fileID: 384826301377380159, guid: ad81f24e26c8f4b47b12246fcc0d6d43, type: 3}
   - {fileID: -2988772760241648996, guid: ef15cca4f51286240b2bfd11eac4e25d, type: 3}
   - {fileID: -6297788322620515319, guid: f1ef1a1b98c2e7a41a21ebdac0a3095f, type: 3}
@@ -815,9 +815,7 @@ MonoBehaviour:
   speed: 0.3
   bound: 9.6
   ball: {fileID: 1024777814}
-  _shrinkSize: {x: 0, y: 0, z: 0}
-  _regularSize: {x: 0, y: 0, z: 0}
-  _extendSize: {x: 0, y: 0, z: 0}
+  _sizes: []
 --- !u!212 &879790154
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1236,6 +1234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 879790152}
   gameControl: {fileID: 282287565}
+  _speeds: []
   _damage: 0
 --- !u!1 &1124801003
 GameObject:
