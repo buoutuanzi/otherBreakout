@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FactoryBlock : MonoBehaviour
 {
-    [SerializeField] private Block[] blockPrefabs;
+    [SerializeField] private Block[] _blockPrefabs;
 
     public Block GetProduct(Vector3 position, int index)
     {
@@ -12,13 +12,13 @@ public class FactoryBlock : MonoBehaviour
         {
             throw new System.IndexOutOfRangeException();
         }
-        Block instance = Instantiate(blockPrefabs[index], position, Quaternion.identity);
+        Block instance = Instantiate(_blockPrefabs[index], position, Quaternion.identity);
         instance.Initialize();
         return instance;
     }
 
     public int GetBlockListLength()
     {
-        return blockPrefabs.Length;
+        return _blockPrefabs.Length;
     }
 }
